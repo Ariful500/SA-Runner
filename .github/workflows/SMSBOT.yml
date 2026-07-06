@@ -1,0 +1,109 @@
+name: SA SMS WORK Bot
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: sa-sms-work-bot
+  cancel-in-progress: true
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          repository: ariful5/SA
+          token: ${{ secrets.GH_PAT }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Create .env file
+        run: |
+          echo "BOT_TOKEN=${{ secrets.BOT_TOKEN }}" >> .env
+          echo "ADMIN_ID=${{ secrets.ADMIN_ID }}" >> .env
+          echo "LAMIX_URL=${{ secrets.LAMIX_URL }}" >> .env
+          echo "LAMIX_USERNAME=${{ secrets.LAMIX_USERNAME }}" >> .env
+          echo "LAMIX_PASSWORD=${{ secrets.LAMIX_PASSWORD }}" >> .env
+          echo "GROUP_CHAT_ID=${{ secrets.GROUP_CHAT_ID }}" >> .env
+
+      - name: Setup git for auto-save
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Restore users.json
+        run: |
+          if [ ! -f users.json ]; then
+            echo '{}' > users.json
+            echo "users.json নতুন তৈরি হয়েছে।"
+          else
+            echo "✅ আগের users.json পাওয়া গেছে!"
+          fi
+
+      - name: Restore seen_sms.json
+        run: |
+          if [ ! -f seen_sms.json ]; then
+            echo '{"seen": [], "counts": {}}' > seen_sms.json
+            echo "seen_sms.json নতুন তৈরি হয়েছে।"
+          else
+            echo "✅ আগের seen_sms.json পাওয়া গেছে!"
+          fi
+
+      - name: Restore settings.json
+        run: |
+          if [ ! -f settings.json ]; then
+            echo '{"daily_limit": 120, "max_per_order": 30, "auto_approve": false, "rate_limit_per_minute": 25}' > settings.json
+            echo "settings.json নতুন তৈরি হয়েছে।"
+          else
+            echo "✅ আগের settings.json পাওয়া গেছে!"
+          fi
+
+      - name: Restore leaderboard_sms.json
+        run: |
+          if [ ! -f leaderboard_sms.json ]; then
+            echo '{"date": "", "counts": {}}' > leaderboard_sms.json
+            echo "leaderboard_sms.json নতুন তৈরি হয়েছে।"
+          else
+            echo "✅ আগের leaderboard_sms.json পাওয়া গেছে!"
+          fi
+
+      - name: Restore alltime_leaderboard.json
+        run: |
+          if [ ! -f alltime_leaderboard.json ]; then
+            echo '{"counts": {}}' > alltime_leaderboard.json
+            echo "alltime_leaderboard.json নতুন তৈরি হয়েছে।"
+          else
+            echo "✅ আগের alltime_leaderboard.json পাওয়া গেছে!"
+          fi
+
+      - name: Restore last_reset.json
+        run: |
+          if [ ! -f last_reset.json ]; then
+            echo '{"date": ""}' > last_reset.json
+            echo "last_reset.json নতুন তৈরি হয়েছে।"
+          else
+            echo "✅ আগের last_reset.json পাওয়া গেছে!"
+          fi
+
+      - name: Restore allocated_map.json
+        run: |
+          if [ ! -f allocated_map.json ]; then
+            echo '{}' > allocated_map.json
+            echo "allocated_map.json নতুন তৈরি হয়েছে।"
+          else
+            echo "✅ আগের allocated_map.json পাওয়া গেছে!"
+          fi
+
+      - name: Run python bot.py
+        run: python -u bot.py
