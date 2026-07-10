@@ -36,19 +36,20 @@ jobs:
           echo "LAMIX_USERNAME=${{ secrets.LAMIX_USERNAME }}" >> .env
           echo "LAMIX_PASSWORD=${{ secrets.LAMIX_PASSWORD }}" >> .env
           echo "GROUP_CHAT_ID=${{ secrets.GROUP_CHAT_ID }}" >> .env
+          echo "GROUP_INVITE_LINK=${{ secrets.GROUP_INVITE_LINK }}" >> .env
 
       - name: Setup git for auto-save
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Restore users.json
+      - name: Restore settings.json
         run: |
-          if [ ! -f users.json ]; then
-            echo '{}' > users.json
-            echo "users.json নতুন তৈরি হয়েছে।"
+          if [ ! -f settings.json ]; then
+            echo '{"daily_limit": 120, "max_per_order": 30, "auto_approve": false, "rate_limit_per_minute": 25, "force_join": true}' > settings.json
+            echo "settings.json নতুন তৈরি হয়েছে।"
           else
-            echo "✅ আগের users.json পাওয়া গেছে!"
+            echo "✅ আগের settings.json পাওয়া গেছে!"
           fi
 
       - name: Restore seen_sms.json
