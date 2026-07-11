@@ -31,6 +31,7 @@ jobs:
       - name: Create .env file
         run: |
           echo "BOT_TOKEN=${{ secrets.BOT_TOKEN }}" >> .env
+          echo "GROUP_BOT_TOKEN=${{ secrets.GROUP_BOT_TOKEN }}" >> .env
           echo "ADMIN_ID=${{ secrets.ADMIN_ID }}" >> .env
           echo "LAMIX_URL=${{ secrets.LAMIX_URL }}" >> .env
           echo "LAMIX_USERNAME=${{ secrets.LAMIX_USERNAME }}" >> .env
