@@ -116,4 +116,4 @@ jobs:
         run: go build -o sabot .
 
       - name: Run Go bot
-        run: ./sabotsabot
+        run: ./sabot
