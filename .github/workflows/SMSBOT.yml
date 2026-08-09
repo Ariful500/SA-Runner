@@ -47,6 +47,7 @@ jobs:
           echo "LAMIX_USERNAME=${{ secrets.LAMIX_USERNAME }}" >> .env
           echo "LAMIX_PASSWORD=${{ secrets.LAMIX_PASSWORD }}" >> .env
           echo "GROUP_CHAT_ID=${{ secrets.GROUP_CHAT_ID }}" >> .env
+          echo "CHANNEL_CHAT_ID=${{ secrets.CHANNEL_CHAT_ID }}" >> .env
           echo "GROUP_INVITE_LINK=${{ secrets.GROUP_INVITE_LINK }}" >> .env
           echo "CAPTCHA_API_KEY=${{ secrets.CAPTCHA_API_KEY }}" >> .env
 
@@ -58,7 +59,7 @@ jobs:
       - name: Restore settings.json
         run: |
           if [ ! -f settings.json ]; then
-            echo '{"daily_limit": 120, "max_per_order": 30, "auto_approve": false, "rate_limit_per_minute": 25, "force_join": true}' > settings.json
+            echo '{"daily_limit": 120, "max_per_order": 30, "auto_approve": false, "rate_limit_per_minute": 25, "force_join": true, "group_invite_link": "", "channel_invite_link": ""}' > settings.json
             echo "settings.json নতুন তৈরি হয়েছে।"
           else
             echo "✅ আগের settings.json পাওয়া গেছে!"
