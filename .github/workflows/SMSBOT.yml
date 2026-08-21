@@ -38,19 +38,6 @@ jobs:
       - name: Install dependencies
         run: go mod download
         
-      - name: Create .env file
-        run: |
-          echo "BOT_TOKEN=${{ secrets.BOT_TOKEN }}" >> .env
-          echo "GROUP_BOT_TOKEN=${{ secrets.GROUP_BOT_TOKEN }}" >> .env
-          echo "ADMIN_ID=${{ secrets.ADMIN_ID }}" >> .env
-          echo "LAMIX_URL=${{ secrets.LAMIX_URL }}" >> .env
-          echo "LAMIX_USERNAME=${{ secrets.LAMIX_USERNAME }}" >> .env
-          echo "LAMIX_PASSWORD=${{ secrets.LAMIX_PASSWORD }}" >> .env
-          echo "GROUP_CHAT_ID=${{ secrets.GROUP_CHAT_ID }}" >> .env
-          echo "CHANNEL_CHAT_ID=${{ secrets.CHANNEL_CHAT_ID }}" >> .env
-          echo "GROUP_INVITE_LINK=${{ secrets.GROUP_INVITE_LINK }}" >> .env
-          echo "CAPTCHA_API_KEY=${{ secrets.CAPTCHA_API_KEY }}" >> .env
-
       - name: Setup git for auto-save
         run: |
           git config --global user.name "github-actions[bot]"
