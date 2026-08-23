@@ -36,7 +36,7 @@ jobs:
           sudo apt-get install -y google-chrome-stable
 
       - name: Install dependencies
-        run: go mod download
+        run: go mod tidy
         
       - name: Setup git for auto-save
         run: |
