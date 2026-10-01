@@ -5,7 +5,7 @@ on:
 
 concurrency:
   group: sa-sms-work-bot
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   run-bot:
